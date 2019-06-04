@@ -1,0 +1,1 @@
+#This will be responsible for pulling information from the main page of wikipedia and pulling info from the articles themselves
