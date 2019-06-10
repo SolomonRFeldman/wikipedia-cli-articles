@@ -3,7 +3,6 @@
 class WikipediaArticles::CLI
   
   def initialize
-    puts "Testing, testing, 1 2 3!"
   end
   
 end
