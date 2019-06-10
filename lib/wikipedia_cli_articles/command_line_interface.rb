@@ -3,7 +3,7 @@
 class WikipediaArticles::CLI
   
   def initialize
-    puts "Welcome to the Wikipedia CLI Article viewer"
+    puts "Welcome to the Wikipedia CLI Article Viewer"
   end
   
 end
