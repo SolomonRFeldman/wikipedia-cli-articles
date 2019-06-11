@@ -16,11 +16,17 @@ class Scraper
     doc.css(".mw-parser-output").children.each do |child|
       if child.name == "p"
         page.sections.last.paragraphs << child.text
-      end
-      if child.name == "h2"
+      elsif child.name == "h2"
         page.sections << Section.new
         page.sections.last.title = child.css(".mw-headline").text
+      elsif child.name == "blockquote"
+        page.sections.last.paragraphs << ""
+        page.sections.last.paragraphs << child.css("p").text
+        page.sections.last.paragraphs << ""
       end
+    end
+    page.sections[2].paragraphs.each do |paragraph|
+      puts paragraph
     end
     binding.pry
   end
