@@ -13,30 +13,33 @@ class Scraper
     page.title = doc.css("h1").text
     page.sections << Section.new
     page.sections.last.title = "Intro"
+    paragraphs = []
     doc.css(".mw-parser-output").children.each do |child|
-      if child.name == "p" || child.name == "ul"
-        page.sections.last.paragraphs << child.text
+      if child.name == "p"
+        paragraphs << child.text
       elsif child.name == "h2"
+        page.sections.last.text = parse_paragraphs(paragraphs)
+        paragraphs = []
         page.sections << Section.new
         page.sections.last.title = child.css(".mw-headline").text
       elsif child.name == "h3"
-        page.sections.last.paragraphs << ""
-        page.sections.last.paragraphs << "— #{child.css(".mw-headline").text} —"
+        paragraphs << "\n— #{child.css(".mw-headline").text} —"
       elsif child.name == "blockquote"
-        page.sections.last.paragraphs << ""
-        page.sections.last.paragraphs << child.css("p").text
-        page.sections.last.paragraphs << ""
-      # elsif child.name == "ul"
-      #   page.sections.last.paragraphs << child.text
-      #   # child.children.each do |child|
-      #   #   page.sections.last.paragraphs <<  "  #{child.text}"
-      #   # end
+        paragraphs << "\n#{child.text}\n"
+      elsif child.name == "ul"
+        paragraphs << "#{child.text}\n"
       end
     end
-    page.sections[2].paragraphs.each do |paragraph|
-      puts paragraph
-    end
+    puts page.sections[2].text
     binding.pry
+  end
+  
+  def self.parse_paragraphs(paragraphs)
+    text = ""
+    paragraphs.each do |paragraph|
+      text = text + "#{paragraph}\n"
+    end
+    text
   end
 
 end
