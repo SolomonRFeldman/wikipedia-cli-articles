@@ -13,13 +13,16 @@ class Scraper
     page.title = doc.css("h1").text
     page.sections << Section.new
     page.sections.last.title = "Intro"
-    text = []
     doc.css(".mw-parser-output").children.each do |child|
       if child.name == "p"
-        text << child.text
+        page.sections.last.paragraphs << child.text
+      end
+      if child.name == "h2"
+        page.sections << Section.new
+        page.sections.last.title = child.css(".mw-headline").text
       end
     end
     binding.pry
   end
-  
+
 end
