@@ -5,6 +5,7 @@ class WikipediaArticles::CLI
   def initialize
     puts "Welcome to the Wikipedia CLI Article Viewer"
     # Scraper.scrape_main_page
+    Scraper.scrape_article_page
   end
   
 end
