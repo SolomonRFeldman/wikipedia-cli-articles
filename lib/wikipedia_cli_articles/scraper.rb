@@ -14,15 +14,23 @@ class Scraper
     page.sections << Section.new
     page.sections.last.title = "Intro"
     doc.css(".mw-parser-output").children.each do |child|
-      if child.name == "p"
+      if child.name == "p" || child.name == "ul"
         page.sections.last.paragraphs << child.text
       elsif child.name == "h2"
         page.sections << Section.new
         page.sections.last.title = child.css(".mw-headline").text
+      elsif child.name == "h3"
+        page.sections.last.paragraphs << ""
+        page.sections.last.paragraphs << "— #{child.css(".mw-headline").text} —"
       elsif child.name == "blockquote"
         page.sections.last.paragraphs << ""
         page.sections.last.paragraphs << child.css("p").text
         page.sections.last.paragraphs << ""
+      # elsif child.name == "ul"
+      #   page.sections.last.paragraphs << child.text
+      #   # child.children.each do |child|
+      #   #   page.sections.last.paragraphs <<  "  #{child.text}"
+      #   # end
       end
     end
     page.sections[2].paragraphs.each do |paragraph|
