@@ -11,8 +11,9 @@ class Scraper
     doc = Nokogiri::HTML(open('https://en.wikipedia.org/wiki/Flags_of_New_York_City'))
     page = Page.new
     page.title = doc.css("h1").text
-    page
-    puts doc.css(".mw-body-content")[2].css("p")[2].text
+    page.sections << Section.new
+    page.sections.last.title = "Intro"
+    puts page.sections.first.title
     binding.pry
   end
 end
