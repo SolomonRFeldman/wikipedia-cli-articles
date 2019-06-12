@@ -13,7 +13,7 @@ class WikipediaArticles::CLI
     valid = false
     while valid == false
       article = gets.strip
-      article.gsub!(/[ ]/, '_')
+      article.gsub!(' ', '_')
       begin 
         open("https://en.wikipedia.org/wiki/#{article}")
         valid = true
