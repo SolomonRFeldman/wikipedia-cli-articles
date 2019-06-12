@@ -38,6 +38,7 @@ class Scraper
     end
     puts page.sections[2].text
     binding.pry
+    page
   end
   
   def self.parse_paragraphs(paragraphs)
