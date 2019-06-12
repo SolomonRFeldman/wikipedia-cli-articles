@@ -17,11 +17,11 @@ class WikipediaArticles::CLI
       begin 
         open("https://en.wikipedia.org/wiki/#{article}")
         valid = true
-        article
       rescue
         puts "Please enter a valid article name."
       end
     end
+    article
   end
 
 end
