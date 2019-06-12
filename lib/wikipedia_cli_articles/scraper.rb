@@ -36,7 +36,6 @@ class Scraper
         end
       end
     end
-    puts page.sections[2].text
     binding.pry
     page
   end

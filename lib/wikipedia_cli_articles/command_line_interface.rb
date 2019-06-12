@@ -9,6 +9,8 @@ class WikipediaArticles::CLI
     page = Scraper.scrape_article_page(article)
     puts page.sections[0].title
     puts page.sections[0].text.lstrip
+    puts "— Contents —"
+    page.sections.each { |section| puts section.title }
   end
   
   def get_article_url
