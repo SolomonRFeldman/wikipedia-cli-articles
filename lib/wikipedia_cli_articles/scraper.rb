@@ -23,9 +23,9 @@ class Scraper
         page.sections << Section.new
         page.sections.last.title = child.css(".mw-headline").text
       elsif child.name == "h3"
-        paragraphs << "\n— #{child.css(".mw-headline").text} —"
+        paragraphs << "\n— #{child.css(".mw-headline").text} —\n"
       elsif child.name == "blockquote"
-        paragraphs << "\n#{child.text}\n"
+        goes_to_next_line?(child.text) ? paragraphs << "\n#{child.text}\n" : paragraphs << "\n#{child.text}\n\n"
       elsif child.name == "ul"
         paragraphs << "#{child.text}\n"
       end
@@ -37,9 +37,13 @@ class Scraper
   def self.parse_paragraphs(paragraphs)
     text = ""
     paragraphs.each do |paragraph|
-      text = text + "#{paragraph}\n"
+      text = text + "#{paragraph}"
     end
     text
+  end
+  
+  def self.goes_to_next_line?(text)
+    text.end_with?("\n")
   end
 
 end
