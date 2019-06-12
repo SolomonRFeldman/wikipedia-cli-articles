@@ -28,6 +28,8 @@ class Scraper
         goes_to_next_line?(child.text) ? paragraphs << "\n#{child.text}\n" : paragraphs << "\n#{child.text}\n\n"
       elsif child.name == "ul"
         paragraphs << "#{child.text}\n"
+      elsif child.values.include?("reflist")
+        paragraphs << child.text
       end
     end
     puts page.sections[2].text
@@ -45,5 +47,7 @@ class Scraper
   def self.goes_to_next_line?(text)
     text.end_with?("\n")
   end
+  
+  # def ol_builder()
 
 end
