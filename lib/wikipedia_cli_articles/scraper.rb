@@ -29,7 +29,11 @@ class Scraper
       elsif child.name == "ul"
         paragraphs << "#{child.text}\n"
       elsif child.values.include?("reflist")
-        paragraphs << child.text
+        position = 0
+        child.css("ol").css("li").each do |child|
+          position += 1
+          paragraphs << "#{position}. #{child.css("cite").text}#{child.css("a").text}\n"
+        end
       end
     end
     puts page.sections[2].text
@@ -47,7 +51,7 @@ class Scraper
   def self.goes_to_next_line?(text)
     text.end_with?("\n")
   end
-  
-  # def ol_builder()
+
+
 
 end
