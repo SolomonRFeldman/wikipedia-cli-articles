@@ -5,8 +5,24 @@ class WikipediaArticles::CLI
   def initialize
     puts "Welcome to the Wikipedia CLI Article Viewer"
     # Scraper.scrape_main_page
-    Scraper.scrape_article_page
+    article = get_article_url
+    Scraper.scrape_article_page(article)
   end
   
+  def get_article_url
+    valid = false
+    while valid == false
+      article = gets.strip
+      article.gsub!(/[ ]/, '_')
+      begin 
+        open("https://en.wikipedia.org/wiki/#{article}")
+        valid = true
+        article
+      rescue
+        puts "Please enter a valid article name."
+      end
+    end
+  end
+
 end
 	
