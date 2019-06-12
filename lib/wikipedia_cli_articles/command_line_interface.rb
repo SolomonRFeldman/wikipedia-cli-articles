@@ -6,7 +6,9 @@ class WikipediaArticles::CLI
     puts "Welcome to the Wikipedia CLI Article Viewer"
     # Scraper.scrape_main_page
     article = get_article_url
-    Scraper.scrape_article_page(article)
+    page = Scraper.scrape_article_page(article)
+    puts page.sections[0].title
+    puts page.sections[0].text.lstrip
   end
   
   def get_article_url
