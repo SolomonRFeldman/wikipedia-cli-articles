@@ -17,6 +17,9 @@ class WikipediaArticles::CLI
       article = gets.strip
       article.gsub!(' ', '_')
       begin 
+        if article.downcase == "main_page"
+          raise
+        end
         open("https://en.wikipedia.org/wiki/#{article}")
         valid = true
       rescue
