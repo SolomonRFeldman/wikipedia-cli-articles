@@ -2,8 +2,15 @@
 class Page
   attr_accessor :title, :sections
   
+  @@all = []
+
   def initialize
     @sections = []
+    @@all << self
+  end
+
+  def self.all
+    @@all
   end
 
 end
