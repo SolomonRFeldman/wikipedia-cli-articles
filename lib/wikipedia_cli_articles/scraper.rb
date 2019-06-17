@@ -7,8 +7,11 @@ class Scraper
 
   def self.scrape_article_page(article)
     #doc.css("h1").text = title of page
-
-    doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/#{article}"))
+    if article.downcase == "random"
+      doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/Special:Random"))
+    else
+      doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/#{article}"))
+    end
     page = Page.new
     page.title = doc.css("h1").text
     page.sections << Section.new

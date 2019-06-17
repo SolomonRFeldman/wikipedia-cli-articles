@@ -7,7 +7,7 @@ class WikipediaArticles::CLI
     # Scraper.scrape_main_page
     article = get_article_url
     page = Scraper.scrape_article_page(article)
-    printpage(page)
+    displaypage(page)
   end
   
   def get_article_url
@@ -25,7 +25,7 @@ class WikipediaArticles::CLI
     article
   end
 
-  def printpage(page)
+  def displaypage(page)
     puts page.sections[0].title
     puts page.sections[0].text.lstrip
     puts "— Contents —"
