@@ -5,25 +5,34 @@ class WikipediaArticles::CLI
   def initialize
     puts "Welcome to the Wikipedia CLI Article Viewer"
     # Scraper.scrape_main_page
-    article = get_article_url
-    page = Scraper.scrape_article_page(article)
-    displaypage(page)
+    article = ""
+    while article.downcase != "exit"
+      article = get_article_url
+      if article.downcase != "exit"
+        page = Scraper.scrape_article_page(article)
+        displaypage(page)
+      end
+    end
   end
   
   def get_article_url
-    puts "Please enter the name of a Wikipedia article."
+    puts 'Please enter the name of a Wikipedia article or type "exit" to exit.'
     valid = false
     while valid == false
       article = gets.strip
-      article.gsub!(' ', '_')
-      begin 
-        if article.downcase == "main_page"
-          raise
+      if article.downcase != "exit"
+        article.gsub!(' ', '_')
+        begin 
+          if article.downcase == "main_page" || article == ""
+            raise
+          end
+          open("https://en.wikipedia.org/wiki/#{article}")
+          valid = true
+        rescue
+          puts "Please enter a valid article name."
         end
-        open("https://en.wikipedia.org/wiki/#{article}")
+      else
         valid = true
-      rescue
-        puts "Please enter a valid article name."
       end
     end
     article
@@ -42,7 +51,7 @@ class WikipediaArticles::CLI
     while selection != "exit"
       puts "— Contents —"
       page.sections.each { |section| puts section.title }
-      puts "\n" + 'Type the name of a section to view it or type "exit" to exit.'
+      puts "\n" + 'Type the name of a section to view it or type "exit" to view another article.'
       selection = gets.strip.downcase
       section_index = page.sections.index { |section| section.title.downcase == selection }
       while selection != "exit" && section_index == nil
