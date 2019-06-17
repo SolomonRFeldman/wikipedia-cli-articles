@@ -59,7 +59,7 @@ class WikipediaArticles::CLI
   def section_page(section)
     puts "\n#{section.title}"
     puts section.text
-    puts "\n Press Enter to go back to contents"
+    puts "\n Press Enter to go back to contents..."
     gets
   end
 
