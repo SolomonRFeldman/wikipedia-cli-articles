@@ -7,7 +7,7 @@ class Scraper
 
   def self.scrape_article_page(article)
     #doc.css("h1").text = title of page
-    if article.downcase == "random"
+    if article.downcase.strip == "random"
       doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/Special:Random"))
     else
       doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/#{article}"))
@@ -28,7 +28,7 @@ class Scraper
       elsif child.name == "h3"
         paragraphs << "\n— #{child.css(".mw-headline").text} —\n"
       elsif child.name == "blockquote"
-        goes_to_next_line?(child.text) ? paragraphs << "\n#{child.text}\n" : paragraphs << "\n#{child.text}\n\n"
+        child.text.end_with?("\n") ? paragraphs << "\n#{child.text}\n" : paragraphs << "\n#{child.text}\n\n"
       elsif child.name == "ul"
         paragraphs << "#{child.text}\n"
       elsif child.values.include?("reflist")
@@ -39,7 +39,6 @@ class Scraper
         end
       end
     end
-    binding.pry
     page
   end
   
@@ -50,11 +49,5 @@ class Scraper
     end
     text
   end
-  
-  def self.goes_to_next_line?(text)
-    text.end_with?("\n")
-  end
-
-
 
 end

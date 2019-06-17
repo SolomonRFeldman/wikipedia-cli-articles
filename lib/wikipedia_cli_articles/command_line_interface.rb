@@ -11,6 +11,7 @@ class WikipediaArticles::CLI
   end
   
   def get_article_url
+    puts "Please enter the name of a Wikipedia article."
     valid = false
     while valid == false
       article = gets.strip
@@ -26,11 +27,38 @@ class WikipediaArticles::CLI
   end
 
   def displaypage(page)
-    puts page.sections[0].title
+    puts "\n#{page.sections[0].title}"
     puts page.sections[0].text.lstrip
-    puts "— Contents —"
-    page.sections.each { |section| puts section.title }
+    puts "\n Press Enter to continue to contents..."
+    gets
+    contents_page(page)
   end
   
+  def contents_page(page)
+    selection = nil
+    while selection != "exit"
+      puts "— Contents —"
+      page.sections.each { |section| puts section.title }
+      puts "\n" + 'Type the name of a section to view it or type "exit" to exit.'
+      selection = gets.strip.downcase
+      section_index = page.sections.index { |section| section.title.downcase == selection }
+      while selection != "exit" && section_index == nil
+        puts "Enter a valid section name."
+        selection = gets.strip.downcase
+        section_index = page.sections.index { |section| section.title.downcase == selection }
+      end
+      if selection != "exit"
+        section_page(page.sections[section_index])
+      end
+    end
+  end
+
+  def section_page(section)
+    puts "\n#{section.title}"
+    puts section.text
+    puts "\n Press Enter to go back to contents"
+    gets
+  end
+
 end
 	
