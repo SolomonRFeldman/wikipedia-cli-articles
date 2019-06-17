@@ -31,7 +31,7 @@ class Scraper
         child.text.end_with?("\n") ? paragraphs << "\n#{child.text}\n" : paragraphs << "\n#{child.text}\n\n"
       elsif child.name == "ul"
         paragraphs << "#{child.text}\n"
-      elsif child.values.include?("reflist")
+      elsif child.values.any? { |value| value.include?("reflist") }
         position = 0
         child.css("ol").css("li").each do |child|
           position += 1
@@ -39,6 +39,7 @@ class Scraper
         end
       end
     end
+    binding.pry
     page
   end
   
