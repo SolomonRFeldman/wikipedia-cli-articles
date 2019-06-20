@@ -13,6 +13,11 @@ class Scraper
       doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/#{article}"))
     end
     page = Page.new
+    page = self.parse_main_text(page, doc)
+    page = self.parse_sidebox(page, doc)
+  end
+  
+  def self.parse_main_text(page, doc)
     page.title = doc.css("h1").text
     page.sections << Section.new
     page.sections.last.title = page.title
@@ -42,6 +47,11 @@ class Scraper
     page
   end
   
+  def self.parse_sidebox(page, doc)
+    page
+  end
+
+
   def self.parse_paragraphs(paragraphs)
     text = ""
     paragraphs.each do |paragraph|
