@@ -49,8 +49,25 @@ class Scraper
   
   def self.parse_sidebox(page, doc)
     #dont parse if has colspan unless it has a lavender background(used for positions people hold)
+    #doc.css(".infobox").css("tr")[8].children.any? { |children| children.keys.include?("colspan") }
     page.sidebox = Section.new
     page.sidebox.title = "Sidebox"
+    page.sidebox.text = ""
+    doc.css(".infobox").css("tr").each do |child|
+      if !child.children.any? { |children| children.keys.include?("colspan") }
+        child.children.each do |children| 
+          children.children.each do |text|
+            if text.name == "br"
+              page.sidebox.text = page.sidebox.text + ", "
+            else
+              page.sidebox.text = page.sidebox.text + text.text
+            end
+          end
+          page.sidebox.text = page.sidebox.text + ":  "
+        end
+        page.sidebox.text = page.sidebox.text + "\n"
+      end
+    end
     binding.pry
     page
   end
