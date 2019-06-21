@@ -48,6 +48,10 @@ class Scraper
   end
   
   def self.parse_sidebox(page, doc)
+    #dont parse if has colspan unless it has a lavender background(used for positions people hold)
+    page.sidebox = Section.new
+    page.sidebox.title = "Sidebox"
+    binding.pry
     page
   end
 
