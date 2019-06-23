@@ -14,7 +14,7 @@ class Scraper
     end
     page = Page.new
     page = self.parse_main_text(page, doc)
-    page = self.parse_sidebox(page, doc)
+    page = self.parse_infobox(page, doc)
   end
   
   def self.parse_main_text(page, doc)
@@ -47,25 +47,25 @@ class Scraper
     page
   end
   
-  def self.parse_sidebox(page, doc)
+  def self.parse_infobox(page, doc)
     #dont parse if has colspan unless it has a lavender background(used for positions people hold)
     #doc.css(".infobox").css("tr")[8].children.any? { |children| children.keys.include?("colspan") }
-    page.sidebox = Section.new
-    page.sidebox.title = "Sidebox"
-    page.sidebox.text = ""
+    page.infobox = Section.new
+    page.infobox.title = "Infobox"
+    page.infobox.text = ""
     doc.css(".infobox").css("tr").each do |child|
       if !child.children.any? { |children| children.keys.include?("colspan") }
         child.children.each do |children| 
           children.children.each do |text|
             if text.name == "br"
-              page.sidebox.text = page.sidebox.text + ", "
+              page.infobox.text = page.infobox.text + ", "
             else
-              page.sidebox.text = page.sidebox.text + text.text
+              page.infobox.text = page.infobox.text + text.text
             end
           end
-          page.sidebox.text = page.sidebox.text + ":  "
+          page.infobox.text = page.infobox.text + ":  "
         end
-        page.sidebox.text = page.sidebox.text + "\n"
+        page.infobox.text = page.infobox.text + "\n"
       end
     end
     binding.pry
