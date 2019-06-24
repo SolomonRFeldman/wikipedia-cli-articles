@@ -36,6 +36,14 @@ class Scraper
         child.text.end_with?("\n") ? paragraphs << "\n#{child.text}\n" : paragraphs << "\n#{child.text}\n\n"
       elsif child.name == "ul"
         paragraphs << "#{child.text}\n"
+      elsif child.name == "ol"
+        position = 0
+        child.css("li").each do |child|
+          if child.text.strip != ""
+            position += 1
+            paragraphs << "#{position}. #{child.text}\n"
+          end
+        end
       elsif child.values.any? { |value| value.include?("reflist") }
         position = 0
         child.css("ol").css("li").each do |child|
