@@ -52,6 +52,7 @@ class Scraper
         end
       end
     end
+    page.sections.last.text = parse_paragraphs(paragraphs)
     page
   end
   
