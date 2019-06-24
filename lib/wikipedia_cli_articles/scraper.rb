@@ -1,4 +1,5 @@
 #This will be responsible for pulling information from the main page of wikipedia and pulling info from the articles themselves
+#Reminder: Remove paragraph parser in favor of infobox's way of adding to its section
 class Scraper
 
   def self.scrape_main_page
