@@ -54,7 +54,11 @@ class Scraper
     page.infobox.title = "Infobox"
     page.infobox.text = ""
     doc.css(".infobox").css("tr").each do |child|
-      if !child.children.any? { |children| children.keys.include?("colspan") && !children.children.any? { |colspan_child| colspan_child.name == "text" } }
+      if !child.children.any? do |children| 
+        children.keys.include?("colspan") && !children.children.any? do |colspan_child| 
+          colspan_child.name == "text" || (colspan_child.name == "a" && colspan_child.text != "") 
+        end 
+      end
         index = 0
         child.children.each do |children|
           children.children.each do |text|
@@ -73,7 +77,7 @@ class Scraper
               page.infobox.text = page.infobox.text + text.text
             end
           end
-          page.infobox.text = (page.infobox.text + ":  ") if index == 0
+          page.infobox.text = (page.infobox.text + ":  ") if index == 0 && child.children.size > 1 && children.text.strip != ""
           index += 1
         end
         page.infobox.text = page.infobox.text + "\n"
