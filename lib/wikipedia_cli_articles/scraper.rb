@@ -57,8 +57,6 @@ class Scraper
   end
   
   def self.parse_infobox(page, doc)
-    #dont parse if has colspan unless it has a lavender background(used for positions people hold)
-    #doc.css(".infobox").css("tr")[8].children.any? { |children| children.keys.include?("colspan") }
     page.infobox = Section.new
     page.infobox.title = "Infobox"
     page.infobox.text = ""
@@ -92,7 +90,6 @@ class Scraper
         page.infobox.text = page.infobox.text + "\n"
       end
     end
-    binding.pry
     page
   end
 
