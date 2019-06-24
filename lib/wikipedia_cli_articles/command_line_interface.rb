@@ -51,16 +51,20 @@ class WikipediaArticles::CLI
     while selection != "exit"
       puts "— Contents —"
       page.sections.each { |section| puts section.title }
-      puts "\n" + 'Type the name of a section to view it or type "exit" to view another article.'
+      puts "\n" + 'Type the name of a section to view it, type "Infobox" to view the infobox, or type "exit" to view another article.'
       selection = gets.strip.downcase
       section_index = page.sections.index { |section| section.title.downcase == selection }
-      while selection != "exit" && section_index == nil
+      while selection != "exit" && section_index == nil && selection != "infobox"
         puts "Enter a valid section name."
         selection = gets.strip.downcase
         section_index = page.sections.index { |section| section.title.downcase == selection }
       end
       if selection != "exit"
-        section_page(page.sections[section_index])
+        if selection == "infobox"
+          section_page(page.infobox)
+        else
+          section_page(page.sections[section_index])
+        end
       end
     end
   end
