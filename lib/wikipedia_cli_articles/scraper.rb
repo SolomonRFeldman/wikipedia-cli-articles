@@ -54,16 +54,27 @@ class Scraper
     page.infobox.title = "Infobox"
     page.infobox.text = ""
     doc.css(".infobox").css("tr").each do |child|
-      if !child.children.any? { |children| children.keys.include?("colspan") }
-        child.children.each do |children| 
+      if !child.children.any? { |children| children.keys.include?("colspan") && !children.children.any? { |colspan_child| colspan_child.name == "text" } }
+        index = 0
+        child.children.each do |children|
           children.children.each do |text|
             if text.name == "br"
               page.infobox.text = page.infobox.text + ", "
+            elsif text.css("ul").any?{ |value| value.name == "ul" }
+              ul_list = text.css("ul").css("li")
+              ul_list.each do |list|
+                if ul_list.last == list
+                  page.infobox.text = page.infobox.text + list.text
+                else
+                  page.infobox.text = page.infobox.text + "#{list.text}, "
+                end
+              end
             else
               page.infobox.text = page.infobox.text + text.text
             end
           end
-          page.infobox.text = page.infobox.text + ":  "
+          page.infobox.text = (page.infobox.text + ":  ") if index == 0
+          index += 1
         end
         page.infobox.text = page.infobox.text + "\n"
       end
