@@ -1,4 +1,4 @@
-class Scraper
+class WikipediaArticles::Scraper
 
   def self.scrape_main_page
     page = Nokogiri::HTML(open('https://en.wikipedia.org/wiki/Main_Page'))
@@ -10,21 +10,21 @@ class Scraper
     else
       doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/#{article}"))
     end
-    page = Page.new
+    page = WikipediaArticles::Page.new
     self.parse_main_text(page, doc)
     self.parse_infobox(page, doc)
   end
   
   def self.parse_main_text(page, doc)
     page.title = doc.css("h1").text
-    page.sections << Section.new
+    page.sections << WikipediaArticles::Section.new
     page.sections.last.title = page.title
     page.sections.last.text = ""
     doc.css(".mw-parser-output").children.each do |child|
       if child.name == "p"
         page.sections.last.text = page.sections.last.text + child.text
       elsif child.name == "h2"
-        page.sections << Section.new
+        page.sections << WikipediaArticles::Section.new
         page.sections.last.title = child.css(".mw-headline").text
         page.sections.last.text = ""
       elsif child.name == "h3"
@@ -53,7 +53,7 @@ class Scraper
   end
   
   def self.parse_infobox(page, doc)
-    page.infobox = Section.new
+    page.infobox = WikipediaArticles::Section.new
     page.infobox.title = "Infobox"
     page.infobox.text = ""
     doc.css(".infobox").css("tr").each do |child|

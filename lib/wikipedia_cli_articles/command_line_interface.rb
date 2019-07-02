@@ -1,17 +1,14 @@
-#This will be the CLI which will display information and deal with the logic of user input
-
 class WikipediaArticles::CLI
   
   def initialize
     puts "Welcome to the Wikipedia CLI Article Viewer"
-    # Scraper.scrape_main_page
     article = ""
     while article.downcase != "exit"
       article = get_article_url
-      if page = Page.find_by_title(article)
+      if page = WikipediaArticles::Page.find_by_title(article)
         displaypage(page)
       elsif article.downcase != "exit"
-        page = Scraper.scrape_article_page(article)
+        page = WikipediaArticles::Scraper.scrape_article_page(article)
         displaypage(page)
       end
     end
