@@ -11,8 +11,8 @@ class Scraper
       doc = Nokogiri::HTML(open("https://en.wikipedia.org/wiki/#{article}"))
     end
     page = Page.new
-    page = self.parse_main_text(page, doc)
-    page = self.parse_infobox(page, doc)
+    self.parse_main_text(page, doc)
+    self.parse_infobox(page, doc)
   end
   
   def self.parse_main_text(page, doc)

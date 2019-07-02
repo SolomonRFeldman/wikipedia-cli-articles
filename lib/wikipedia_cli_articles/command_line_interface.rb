@@ -8,7 +8,9 @@ class WikipediaArticles::CLI
     article = ""
     while article.downcase != "exit"
       article = get_article_url
-      if article.downcase != "exit"
+      if page = Page.find_by_title(article)
+        displaypage(page)
+      elsif article.downcase != "exit"
         page = Scraper.scrape_article_page(article)
         displaypage(page)
       end
