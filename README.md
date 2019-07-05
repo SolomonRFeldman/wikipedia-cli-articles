@@ -7,16 +7,12 @@ This gem scrapes a wikipedia article into a page class, which then has each sect
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'wikipedia-cli-articles'
+gem 'wikipedia-cli-articles', :git => 'git://github.com/SolomonRFeldman/wikipedia-cli-articles.git'
 ```
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install wikipedia-cli-articles
 
 ## Contributing
 

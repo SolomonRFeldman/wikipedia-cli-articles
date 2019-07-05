@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "wikipedia_cli_articles/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "wikipedia_cli_articles"
+  spec.name          = "wikipedia-cli-articles"
   spec.version       = WikipediaArticles::VERSION
   spec.authors       = ["Solomon R Feldman"]
   spec.email         = ["SolomonRFeldman@gmail.com"]
